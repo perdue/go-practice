@@ -27,15 +27,12 @@ func main() {
 	log.SetOutput(file)
 	logMsg("Welcome to the Orders App!")
 
-	h, _ := handlers.New()
+	h, err := handlers.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+	router := handlers.ConfigureHandlers(h)
 	logMsg(fmt.Sprintf("%#v", h))
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-
-	log.Fatal(http.ListenAndServe(":3000", mux))
-}
-
-func home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome to the Orders App!\n"))
+	log.Fatal(http.ListenAndServe(":3000", router))
 }
