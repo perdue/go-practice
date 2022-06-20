@@ -13,6 +13,11 @@ func logPrefix() string {
 	return fmt.Sprintf("%-20s", "[main]")
 }
 
+func logMsg(msg string) {
+	log.SetPrefix(logPrefix())
+	log.Println(msg)
+}
+
 func main() {
 	file, err := os.OpenFile("server.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
 	if err != nil {
@@ -20,10 +25,10 @@ func main() {
 	}
 
 	log.SetOutput(file)
-	log.SetPrefix(logPrefix())
-	log.Println("Welcome to the Orders App!")
+	logMsg("Welcome to the Orders App!")
 
-	handlers.New()
+	h, _ := handlers.New()
+	logMsg(fmt.Sprintf("%#v", h))
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
