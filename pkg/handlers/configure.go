@@ -9,8 +9,7 @@ import (
 func ConfigureHandlers(handler Handler) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
-	// TODO: Implement Index
-	router.Methods("GET").Path("/").Handler(http.HandlerFunc(notImplemented))
+	router.Methods("GET").Path("/").Handler(http.HandlerFunc(handler.Index))
 
 	// TODO: Implement ProductIndex
 	router.Methods("GET").Path("/products").Handler(http.HandlerFunc(notImplemented))
